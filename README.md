@@ -1,8 +1,8 @@
-# CampaignAI: Multi-Agent Google Ads Pre-Launch System
+# CampaignAI: Multi-Agent Google Ads Pre-Launch System Design & Prototype Video
 
 A multi-agent system design for turning campaign inputs into a structured, launch-ready Google Search campaign package, with a human review checkpoint at each key decision.
 
-> [!WARNING]
+> [Disclaimer]
 > **Prototype only. Not production ready.**
 > This repository contains a system design and a clickable front-end prototype. The agents are simulated in the browser and all data is illustrative. Nothing connects to Google Ads, an LLM, or any live data source.
 
