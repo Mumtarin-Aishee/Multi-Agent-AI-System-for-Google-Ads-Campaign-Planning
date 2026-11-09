@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniqlo SUW — Google Ads Optimization System</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --primary:#1a1a2e;--accent:#e94560;--accent2:#0f3460;--surface:#16213e;
+    --card:#1e2a45;--border:#2d3f6b;--text:#e0e6f8;--muted:#8899bb;
+    --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;
+    --teal:#14b8a6;
+  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--primary);color:var(--text);min-height:100vh;overflow-x:hidden}
+  /* Layout */
+  .app{display:flex;flex-direction:column;height:100vh}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:56px;flex-shrink:0}
+  .topbar-logo{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.5px}
+  .topbar-logo span{color:var(--accent)}
+  .topbar-badge{background:var(--accent2);color:var(--text);font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
+  .topbar-status{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+  .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .main{display:flex;flex:1;overflow:hidden}
+  /* Sidebar */
+  .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .2s;border-left:3px solid transparent}
+  .nav-item:hover{background:rgba(255,255,255,.04);color:var(--text)}
+  .nav-item.active{background:rgba(233,69,96,.08);color:var(--accent);border-left-color:var(--accent)}
+  .nav-item svg{width:16px;height:16px;flex-shrink:0}
+  .nav-section{padding:16px 20px 6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  /* Content */
+  .content{flex:1;overflow-y:auto;padding:24px}
+  /* Cards */
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+  .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .card-title{font-size:15px;font-weight:600;color:#fff}
+  .card-sub{font-size:12px;color:var(--muted);margin-top:2px}
+  /* Grid */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  /* Stat cards */
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+  .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .stat-card.green::before{background:var(--green)}
+  .stat-card.yellow::before{background:var(--yellow)}
+  .stat-card.blue::before{background:var(--blue)}
+  .stat-card.purple::before{background:var(--purple)}
+  .stat-card.red::before{background:var(--red)}
+  .stat-card.teal::before{background:var(--teal)}
+  .stat-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .stat-value{font-size:28px;font-weight:700;color:#fff;margin:6px 0 4px}
+  .stat-change{font-size:12px;color:var(--green)}
+  .stat-change.down{color:var(--red)}
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:#c73652}
+  .btn-secondary{background:var(--border);color:var(--text)}
+  .btn-secondary:hover{background:#3d5080}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .btn-ghost:hover{color:var(--text);border-color:var(--text)}
+  .btn-sm{padding:5px 12px;font-size:12px}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-green:hover{background:#16a34a}
+  .btn-yellow{background:var(--yellow);color:#000}
+  /* Tags / badges */
+  .tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+  .tag-green{background:rgba(34,197,94,.15);color:var(--green)}
+  .tag-yellow{background:rgba(245,158,11,.15);color:var(--yellow)}
+  .tag-red{background:rgba(239,68,68,.15);color:var(--red)}
+  .tag-blue{background:rgba(59,130,246,.15);color:var(--blue)}
+  .tag-purple{background:rgba(139,92,246,.15);color:var(--purple)}
+  .tag-teal{background:rgba(20,184,166,.15);color:var(--teal)}
+  .tag-muted{background:rgba(136,153,187,.15);color:var(--muted)}
+  /* Tables */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border)}
+  td{padding:10px 12px;border-bottom:1px solid rgba(45,63,107,.4);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  /* Score bars */
+  .score-bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden}
+  .score-fill{height:100%;border-radius:3px;transition:width .8s ease}
+  .score-fill.high{background:var(--green)}
+  .score-fill.med{background:var(--yellow)}
+  .score-fill.low{background:var(--red)}
+  /* Input styles */
+  input,select,textarea{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 12px;font-size:13px;width:100%;outline:none;transition:border-color .2s}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+  select option{background:var(--surface)}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px;font-weight:600}
+  .form-group{margin-bottom:14px}
+  /* Tabs */
+  .tabs{display:flex;gap:4px;background:var(--surface);border-radius:10px;padding:4px;margin-bottom:20px;border:1px solid var(--border)}
+  .tab{flex:1;text-align:center;padding:8px 12px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);transition:all .2s}
+  .tab.active{background:var(--accent);color:#fff}
+  /* Progress ring */
+  .ring-wrap{display:flex;align-items:center;gap:12px}
+  .ring{transform:rotate(-90deg)}
+  .ring-bg{fill:none;stroke:var(--border);stroke-width:4}
+  .ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+  /* Competitor card */
+  .comp-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+  .comp-name{font-weight:700;font-size:14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+  /* RSA copy */
+  .rsa-headline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .rsa-pin{font-size:10px;color:var(--muted);cursor:pointer;padding:2px 6px;border:1px solid var(--border);border-radius:4px;white-space:nowrap}
+  .rsa-pin.pinned{color:var(--accent);border-color:var(--accent)}
+  .rsa-desc{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:6px;font-size:13px}
+  /* Alert */
+  .alert{border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;display:flex;align-items:flex-start;gap:10px}
+  .alert-yellow{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--yellow)}
+  .alert-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red)}
+  .alert-green{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--green)}
+  .alert-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--blue)}
+  /* Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+  .modal-overlay.open{opacity:1;pointer-events:all}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;padding:28px}
+  .modal-title{font-size:18px;font-weight:700;margin-bottom:20px;color:#fff}
+  /* Approval gate */
+  .gate{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;border:1px solid var(--border);margin-bottom:8px;background:var(--surface)}
+  .gate-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .gate-icon.pending{background:rgba(245,158,11,.15)}
+  .gate-icon.approved{background:rgba(34,197,94,.15)}
+  .gate-icon.rejected{background:rgba(239,68,68,.15)}
+  /* Whitespace map */
+  .ws-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(45,63,107,.4)}
+  .ws-bar-wrap{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+  .ws-bar{height:100%;border-radius:4px}
+  /* Data source row */
+  .ds-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(45,63,107,.4)}
+  .ds-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .ds-info{flex:1}
+  .ds-name{font-size:13px;font-weight:600;color:#fff}
+  .ds-meta{font-size:11px;color:var(--muted);margin-top:2px}
+  /* Tooltip */
+  [data-tip]{position:relative;cursor:help}
+  [data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#000;color:#fff;font-size:11px;padding:4px 8px;border-radius:4px;white-space:nowrap;z-index:99}
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  /* Responsive */
+  @media(max-width:900px){.grid-4{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:1fr}.sidebar{width:56px}.nav-item span{display:none}.nav-section{display:none}}
+  @media(max-width:600px){.grid-2{grid-template-columns:1fr}}
+  /* Animations */
+  .page{animation:fadeIn .25s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .hidden{display:none!important}
+  /* Workflow steps */
+  .workflow-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--accent2);border:2px solid var(--accent);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-num.done{background:var(--green);border-color:var(--green);color:#fff}
+  .step-num.active-step{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .step-line{width:2px;background:var(--border);flex-shrink:0;margin-left:13px;height:20px}
+  /* Keyword intent dots */
+  .intent-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+  .season-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 7px;border-radius:4px;background:rgba(20,184,166,.1);color:var(--teal);margin-left:4px}
+  /* Agent status */
+  .agent-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px}
+  .agent-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .agent-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;margin-top:4px}
+  .running-dot{width:7px;height:7px;border-radius:50%;animation:pulse 1s infinite}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">Campaign<span>AI</span></div>
+  <div class="topbar-badge">Uniqlo SUW</div>
+  <div style="font-size:12px;color:var(--muted);margin-left:8px">Google Search · Pre-Launch Optimization</div>
+  <div class="topbar-status">
+    <div class="status-dot"></div>
+    <span>3 Agents Active</span>
+    <span style="margin-left:12px;color:var(--yellow)">⏳ Pending Review: 2</span>
+    <button class="btn btn-primary btn-sm" style="margin-left:16px" onclick="openModal('exportModal')">↗ Export Package</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="nav-section">Workspace</div>
+  <div class="nav-item active" onclick="showPage('overview',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <span>Overview</span>
+  </div>
+  <div class="nav-item" onclick="showPage('strategy',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    <span>Strategy Setup</span>
+  </div>
+  <div class="nav-section">Agents</div>
+  <div class="nav-item" onclick="showPage('keywords',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <span>Keywords</span>
+  </div>
+  <div class="nav-item" onclick="showPage('competitors',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span>Competitors</span>
+  </div>
+  <div class="nav-item" onclick="showPage('adcopy',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    <span>Ad Copy</span>
+  </div>
+  <div class="nav-section">Review</div>
+  <div class="nav-item" onclick="showPage('approval',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span>Approvals</span>
+  </div>
+  <div class="nav-item" onclick="showPage('datasources',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+    <span>Data Sources</span>
+  </div>
+  <div class="nav-item" onclick="showPage('feedback',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Feedback Loop</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="mainContent">
+
+<!-- ===== OVERVIEW ===== -->
+<div id="page-overview" class="page">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-size:20px;font-weight:700;color:#fff">Campaign Intelligence Overview</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:3px">Uniqlo Sports Utility Wear · Q1 Launch · AU Market</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="runAllAgents()">▶ Run All Agents</button>
+      <button class="btn btn-primary btn-sm" onclick="showPage('approval',document.querySelector('.nav-item:nth-child(8)'))">Review Queue (2)</button>
+    </div>
+  </div>
+
+  <!-- Agent status -->
+  <div class="grid-3" style="margin-bottom:16px">
+    <div class="agent-card">
+      <div class="agent-icon" style="background:rgba(59,130,246,.15)">🔍</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff">Keyword Intelligence</div>
+        <div class="agent-status"><div class="running-dot" style="background:var(--green)"></div><span style="color:var(--green)">Ready · 847 keywords scored</span></div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon" style="background:rgba(139,92,246,.15)">✍️</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff">Ad Copy Generation</div>
+        <div class="agent-status"><div class="running-dot" style="background:var(--yellow)"></div><span style="color:var(--yellow)">Pending Approval · 6 ad groups</span></div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon" style="background:rgba(233,69,96,.15)">📡</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff">Competitor Monitoring</div>
+        <div class="agent-status"><div class="running-dot" style="background:var(--green)"></div><span style="color:var(--green)">Live · 2 alerts today</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid-4" style="margin-bottom:16px">
+    <div class="stat-card green">
+      <div class="stat-label">Keywords Approved</div>
+      <div class="stat-value">312</div>
+      <div class="stat-change">↑ 47 from last run</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Ad Groups Built</div>
+      <div class="stat-value">6</div>
+      <div class="stat-change">↑ 2 new</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">RSA Assets Ready</div>
+      <div class="stat-value">84</div>
+      <div class="stat-change">Avg score 78/100</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="stat-label">Competitor Alerts</div>
+      <div class="stat-value">7</div>
+      <div class="stat-change down">↑ 3 urgency flags</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Workflow -->
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">End-to-End Workflow</div><div class="card-sub">Current run status</div></div></div>
+      <div id="workflowSteps">
+        <div class="workflow-step">
+          <div class="step-num done">✓</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Context Ingestion</div><div style="font-size:12px;color:var(--muted)">CRM, GA4, product feed, brand docs connected</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step">
+          <div class="step-num done">✓</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Unified Context Layer</div><div style="font-size:12px;color:var(--muted)">Brand, audience, commercial, competitive contexts normalized</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step">
+          <div class="step-num done">✓</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Competitor Agent Run</div><div style="font-size:12px;color:var(--muted)">7 competitor signals captured, 3 whitespace opportunities</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step">
+          <div class="step-num done">✓</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Keyword Research Agent Run</div><div style="font-size:12px;color:var(--muted)">847 keywords scored, 6 ad groups proposed</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step">
+          <div class="step-num active-step">5</div>
+          <div><div style="font-size:13px;font-weight:600;color:var(--accent)">Human Review — Keywords</div><div style="font-size:12px;color:var(--muted)">Awaiting strategist approval</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step" style="opacity:.5">
+          <div class="step-num">6</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Ad Copy Agent Run</div><div style="font-size:12px;color:var(--muted)">Queued after keyword approval</div></div>
+        </div>
+        <div class="step-line"></div>
+        <div class="workflow-step" style="opacity:.5">
+          <div class="step-num">7</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff">Quality Scoring & Export</div><div style="font-size:12px;color:var(--muted)">Final package generation</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scorecards -->
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div class="card-title">Quality Scorecards</div></div>
+        <div id="scoreRings" style="display:flex;flex-direction:column;gap:12px">
+          <div class="ring-wrap">
+            <svg width="44" height="44" class="ring" viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fill" cx="22" cy="22" r="18" stroke="var(--green)" stroke-dasharray="113" stroke-dashoffset="20" /></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Keyword Opportunity</div><div style="font-size:12px;color:var(--muted)">82/100 · High intent coverage</div></div>
+          </div>
+          <div class="ring-wrap">
+            <svg width="44" height="44" class="ring" viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fill" cx="22" cy="22" r="18" stroke="var(--blue)" stroke-dasharray="113" stroke-dashoffset="30" /></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Audience Intent Fit</div><div style="font-size:12px;color:var(--muted)">73/100 · Good segment match</div></div>
+          </div>
+          <div class="ring-wrap">
+            <svg width="44" height="44" class="ring" viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fill" cx="22" cy="22" r="18" stroke="var(--teal)" stroke-dasharray="113" stroke-dashoffset="25" /></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Seasonality Demand</div><div style="font-size:12px;color:var(--muted)">78/100 · Winter uplift active</div></div>
+          </div>
+          <div class="ring-wrap">
+            <svg width="44" height="44" class="ring" viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fill" cx="22" cy="22" r="18" stroke="var(--purple)" stroke-dasharray="113" stroke-dashoffset="45" /></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Competitor Whitespace</div><div style="font-size:12px;color:var(--muted)">60/100 · Moderate gaps found</div></div>
+          </div>
+          <div class="ring-wrap">
+            <svg width="44" height="44" class="ring" viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"/><circle class="ring-fill" cx="22" cy="22" r="18" stroke="var(--yellow)" stroke-dasharray="113" stroke-dashoffset="22" /></svg>
+            <div><div style="font-size:13px;font-weight:600;color:#fff">Ad Copy Readiness</div><div style="font-size:12px;color:var(--muted)">80/100 · Ready for review</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-yellow">
+        <span>⚠</span>
+        <div><strong>Urgency flag:</strong> Competitor "Lululemon" dropped prices by 15% on winter leggings. Consider messaging refresh.</div>
+      </div>
+      <div class="alert alert-blue">
+        <span>ℹ</span>
+        <div><strong>Seasonality trigger:</strong> "thermal base layer" search volume +34% this week — 2 new keyword groups recommended.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STRATEGY ===== -->
+<div id="page-strategy" class="page hidden">
+  <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Strategy Setup</div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Configure campaign objectives, audience, and context parameters</div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">Campaign Configuration</div>
+        <div class="form-group"><label>Campaign Objective</label><select><option>Drive Online Sales</option><option>Increase Brand Traffic</option><option>Lead Generation</option><option>Brand Awareness</option></select></div>
+        <div class="form-group"><label>Market / Region</label><select><option>Australia (AU)</option><option>Japan (JP)</option><option>United States (US)</option><option>United Kingdom (UK)</option></select></div>
+        <div class="form-group"><label>Campaign Type</label><select><option>Google Search</option><option>Performance Max</option><option>Display</option></select></div>
+        <div class="form-group"><label>Budget (Daily AUD)</label><input type="number" value="1500" /></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">Audience Segments</div>
+        <div id="audienceChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <div class="tag tag-blue" style="cursor:pointer" onclick="toggleAudience(this)">✓ Sportswear Shoppers</div>
+          <div class="tag tag-blue" style="cursor:pointer" onclick="toggleAudience(this)">✓ Urban Commuters</div>
+          <div class="tag tag-blue" style="cursor:pointer" onclick="toggleAudience(this)">✓ Millennials 25–40</div>
+          <div class="tag tag-muted" style="cursor:pointer" onclick="toggleAudience(this)">Gen Z 18–25</div>
+          <div class="tag tag-blue" style="cursor:pointer" onclick="toggleAudience(this)">✓ Performance Athletes</div>
+          <div class="tag tag-muted" style="cursor:pointer" onclick="toggleAudience(this)">Winter Utility Shoppers</div>
+          <div class="tag tag-muted" style="cursor:pointer" onclick="toggleAudience(this)">Returning Customers</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="addAudienceModal()">+ Add Segment</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">Seasonality Profile</div>
+        <div class="form-group"><label>Active Season</label><select id="seasonSelect" onchange="updateSeason()"><option>Winter (Jun–Aug)</option><option>Spring Transition (Sep–Oct)</option><option>Summer (Dec–Feb)</option><option>Back-to-Gym (Jan)</option></select></div>
+        <div id="seasonInfo" style="background:var(--surface);border-radius:8px;padding:12px;font-size:13px">
+          <div style="font-weight:600;color:var(--teal);margin-bottom:6px">❄ Winter signals active</div>
+          <div style="color:var(--muted)">• Thermal layers: <strong style="color:#fff">+34% search volume</strong></div>
+          <div style="color:var(--muted)">• "Winter utility wear": <strong style="color:#fff">+28% YoY</strong></div>
+          <div style="color:var(--muted)">• Urgency language recommended</div>
+          <div style="color:var(--muted)">• Product focus: HeatTech, fleece jackets</div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="form-group"><label>Promotion Window</label><input type="text" value="Jun 1 – Aug 31, 2025" /></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px">Brand Context</div>
+        <div class="form-group"><label>Brand Voice</label><select><option>Modern & Functional</option><option>Premium & Minimalist</option><option>Active & Energetic</option></select></div>
+        <div class="form-group"><label>Key Differentiators</label><textarea rows="3" style="resize:none">Versatile performance wear · Japanese quality · Value pricing · Urban + outdoor dual-use</textarea></div>
+        <div class="form-group"><label>Prohibited Claims</label><input type="text" value="Best in class, #1, Guaranteed results" /></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn btn-primary" onclick="saveStrategy()">Save & Run Agents</button>
+          <button class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KEYWORDS ===== -->
+<div id="page-keywords" class="page hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-size:20px;font-weight:700;color:#fff">Keyword Intelligence Dashboard</div>
+      <div style="font-size:13px;color:var(--muted)">Agent 1 · 847 keywords scored across 6 ad groups</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('weightModal')">⚙ Adjust Weights</button>
+      <button class="btn btn-primary btn-sm" onclick="approveAllKw()">Approve All High-Score</button>
+    </div>
+  </div>
+
+  <!-- Score formula -->
+  <div class="alert alert-blue" style="margin-bottom:16px">
+    <span>📊</span>
+    <div style="font-size:12px"><strong>Scoring formula:</strong> 0.25×SearchIntentFit + 0.20×AudienceRelevance + 0.15×Seasonality + 0.15×SearchVolume + 0.10×CPCEfficiency + 0.10×HistoricalPerformance + 0.05×CompetitorWhitespace</div>
+  </div>
+
+  <!-- Filters -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+    <select style="width:auto" id="filterIntent" onchange="filterKeywords()"><option value="">All Intents</option><option>Purchase-Ready</option><option>Comparison</option><option>Category Exploration</option><option>Informational</option><option>Brand-Intent</option></select>
+    <select style="width:auto" id="filterAudience" onchange="filterKeywords()"><option value="">All Audiences</option><option>Sportswear Shoppers</option><option>Urban Commuters</option><option>Performance Athletes</option></select>
+    <select style="width:auto" id="filterStatus" onchange="filterKeywords()"><option value="">All Status</option><option>Recommended</option><option>Approved</option><option>Flagged</option></select>
+    <input type="text" placeholder="Search keywords..." style="width:200px" id="kwSearch" oninput="filterKeywords()" />
+  </div>
+
+  <!-- Ad Group Tabs -->
+  <div class="tabs" id="adGroupTabs">
+    <div class="tab active" onclick="switchAdGroup(this,'all')">All Groups</div>
+    <div class="tab" onclick="switchAdGroup(this,'performance')">Performance</div>
+    <div class="tab" onclick="switchAdGroup(this,'winter')">Winter Utility</div>
+    <div class="tab" onclick="switchAdGroup(this,'commuter')">Urban Commuter</div>
+    <div class="tab" onclick="switchAdGroup(this,'brand')">Brand</div>
+  </div>
+
+  <div class="card">
+    <table id="kwTable">
+      <thead>
+        <tr>
+          <th><input type="checkbox" onchange="toggleAllKw(this)"></th>
+          <th>Keyword</th>
+          <th>Ad Group</th>
+          <th>Intent</th>
+          <th>Audience</th>
+          <th>Est. CPC</th>
+          <th>Volume</th>
+          <th>Season</th>
+          <th>Score</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="kwBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Negatives -->
+  <div class="card" style="margin-top:0">
+    <div class="card-header"><div class="card-title">Negative Keywords</div><button class="btn btn-ghost btn-sm" onclick="addNegative()">+ Add</button></div>
+    <div id="negativeTags" style="display:flex;flex-wrap:wrap;gap:6px">
+      <span class="tag tag-red">cheap uniqlo</span>
+      <span class="tag tag-red">uniqlo jobs</span>
+      <span class="tag tag-red">uniqlo reviews reddit</span>
+      <span class="tag tag-red">yoga wear</span>
+      <span class="tag tag-red">swimwear</span>
+      <span class="tag tag-red">kids activewear</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPETITORS ===== -->
+<div id="page-competitors" class="page hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-size:20px;font-weight:700;color:#fff">Competitor Monitoring</div>
+      <div style="font-size:13px;color:var(--muted)">Agent 3 · Last scan: 2 hours ago · Next: in 22h</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="runCompetitorScan()">🔄 Run Scan Now</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('compModal')">+ Add Competitor</button>
+    </div>
+  </div>
+
+  <div class="alert alert-red" style="margin-bottom:16px">
+    <span>🚨</span>
+    <div><strong>Urgency:</strong> Lululemon launched "All-Season Essentials" promotion with 15% off. Detected 6 hours ago. <a href="#" style="color:var(--accent)" onclick="showPage('adcopy',document.querySelectorAll('.nav-item')[5])">Update ad copy →</a></div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <!-- Whitespace map -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Whitespace Opportunities</div>
+      <div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">Urban Mobility</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:15%;background:var(--green)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--green)">Open</div>
+        </div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">All-Weather Layers</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:28%;background:var(--teal)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--teal)">Low</div>
+        </div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">Comfort + Function</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:35%;background:var(--blue)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--blue)">Moderate</div>
+        </div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">Versatile Everyday</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:40%;background:var(--yellow)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--yellow)">Moderate</div>
+        </div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">Breathable</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:78%;background:var(--red)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--red)">Saturated</div>
+        </div>
+        <div class="ws-item">
+          <div style="min-width:140px;font-size:12px;color:#fff">Lightweight</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:82%;background:var(--red)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--red)">Saturated</div>
+        </div>
+        <div class="ws-item" style="border:none">
+          <div style="min-width:140px;font-size:12px;color:#fff">Water-Resistant</div>
+          <div class="ws-bar-wrap"><div class="ws-bar" style="width:70%;background:var(--red)"></div></div>
+          <div style="min-width:60px;text-align:right;font-size:12px;color:var(--red)">Saturated</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">RECOMMENDED ANGLES FOR UNIQLO</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tag-green">Urban mobility</span>
+          <span class="tag tag-green">Versatile layering</span>
+          <span class="tag tag-teal">All-day comfort</span>
+          <span class="tag tag-teal">Commute-to-gym</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Claim saturation -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Message Claim Analysis</div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">AVOID — OVERUSED CLAIMS</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tag-red">Breathable</span>
+          <span class="tag tag-red">Water-Resistant</span>
+          <span class="tag tag-red">Lightweight</span>
+          <span class="tag tag-red">Performance</span>
+          <span class="tag tag-red">Flexible</span>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">OPPORTUNITY — UNDERUSED ANGLES</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tag-green">Urban mobility</span>
+          <span class="tag tag-green">Work-to-workout</span>
+          <span class="tag tag-green">Japanese craftsmanship</span>
+          <span class="tag tag-teal">All-season layering</span>
+          <span class="tag tag-teal">Smart everyday wear</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">COMPETITOR PROMO LANGUAGE (THIS WEEK)</div>
+        <div style="font-size:12px;color:var(--text);background:var(--surface);padding:10px;border-radius:6px;line-height:1.8">
+          <span style="color:var(--muted)">Lululemon:</span> "All-Season Essentials · Save 15%"<br>
+          <span style="color:var(--muted)">Nike:</span> "Train in Any Weather · Free Returns"<br>
+          <span style="color:var(--muted)">Adidas:</span> "Built for Movement · Sale On Now"<br>
+          <span style="color:var(--muted)">Patagonia:</span> "Sustainable Performance Gear"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Competitor cards -->
+  <div class="card-title" style="margin-bottom:12px;color:#fff;font-size:15px;font-weight:600">Tracked Competitors</div>
+  <div class="grid-2">
+    <div id="compCards"></div>
+    <div id="compCards2"></div>
+  </div>
+</div>
+
+<!-- ===== AD COPY ===== -->
+<div id="page-adcopy" class="page hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-size:20px;font-weight:700;color:#fff">Ad Copy Studio</div>
+      <div style="font-size:13px;color:var(--muted)">Agent 2 · RSA variants for 6 ad groups · Avg score 78/100</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="regenerateCopy()">⟳ Regenerate</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('approveAllModal')">Approve All & Export</button>
+    </div>
+  </div>
+
+  <div class="grid-2" style="align-items:start">
+    <!-- Ad Group selector -->
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:12px">Ad Groups</div>
+        <div id="adGroupList"></div>
+      </div>
+    </div>
+
+    <!-- RSA Editor -->
+    <div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div>
+            <div class="card-title" id="activeAdGroupTitle">Performance Activewear</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <span class="tag tag-blue" id="activeGroupAudience">Sportswear Shoppers</span>
+              <span class="season-tag">❄ Winter</span>
+              <span class="tag tag-green" id="activeGroupScore">Score: 81/100</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" onclick="editCopyModal()">✎ Edit</button>
+          </div>
+        </div>
+
+        <!-- Copy quality score breakdown -->
+        <div style="background:var(--surface);border-radius:8px;padding:12px;margin-bottom:14px;font-size:12px">
+          <div style="font-weight:700;color:var(--muted);margin-bottom:8px">AD COPY SCORE BREAKDOWN</div>
+          <div style="display:grid;gap:6px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Brand Voice Fit</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill high" style="width:85%"></div></div><span style="color:#fff">85</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Landing Page Rel.</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill high" style="width:82%"></div></div><span style="color:#fff">82</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Audience Match</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill high" style="width:79%"></div></div><span style="color:#fff">79</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Policy Safety</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill high" style="width:92%"></div></div><span style="color:#fff">92</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Keyword Coverage</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill med" style="width:74%"></div></div><span style="color:#fff">74</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Seasonal Fit</span><div style="display:flex;align-items:center;gap:8px"><div class="score-bar" style="width:100px"><div class="score-fill high" style="width:80%"></div></div><span style="color:#fff">80</span></div></div>
+          </div>
+        </div>
+
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px">HEADLINES (10–15)</div>
+        <div id="rsaHeadlines"></div>
+
+        <div style="font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 8px">DESCRIPTIONS (3–4)</div>
+        <div id="rsaDescriptions"></div>
+
+        <div style="margin-top:14px">
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px">MESSAGE RATIONALE</div>
+          <div style="font-size:12px;color:var(--muted);background:var(--surface);padding:10px;border-radius:6px;line-height:1.6">Focus on versatility and urban utility to exploit whitespace gap identified by Competitor Agent. Winter seasonality applied — urgency and warmth language included. Avoids saturated "breathable/lightweight" claims.</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn btn-green btn-sm" onclick="approveCopy()">✓ Approve</button>
+          <button class="btn btn-ghost btn-sm" onclick="regenerateCopy()">⟳ Regenerate</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--red);border-color:var(--red)" onclick="rejectCopy()">✗ Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APPROVALS ===== -->
+<div id="page-approval" class="page hidden">
+  <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Review & Approval Queue</div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Human-in-the-loop checkpoints · 2 pending items</div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Approval Gates</div>
+        <div id="gateList"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Audit Trail</div>
+        <div id="auditLog" style="font-size:12px;max-height:280px;overflow-y:auto">
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-title" style="margin-bottom:14px">Reviewer Controls</div>
+        <div class="form-group"><label>Override Reason (when rejecting)</label><textarea rows="2" placeholder="e.g. Brand tone not aligned..." style="resize:none"></textarea></div>
+        <div class="form-group"><label>Weight Adjustments</label>
+          <div style="display:grid;gap:8px;margin-top:4px;font-size:12px">
+            <div style="display:flex;align-items:center;gap:10px"><span style="min-width:140px;color:var(--muted)">Search Intent Fit</span><input type="range" min="0" max="50" value="25" style="flex:1;height:4px;padding:0"> <span id="w1">25%</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><span style="min-width:140px;color:var(--muted)">Audience Relevance</span><input type="range" min="0" max="50" value="20" style="flex:1;height:4px;padding:0"> <span id="w2">20%</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><span style="min-width:140px;color:var(--muted)">Seasonality</span><input type="range" min="0" max="50" value="15" style="flex:1;height:4px;padding:0"> <span id="w3">15%</span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="applyWeights()">Apply & Rescore</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DATA SOURCES ===== -->
+<div id="page-datasources" class="page hidden">
+  <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Data Layer & Source Attachments</div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Connect and manage inputs used by all agents</div>
+
+  <div class="tabs" id="dsTabs">
+    <div class="tab active" onclick="switchDsTab(this,'ds-files')">Data Sources</div>
+    <div class="tab" onclick="switchDsTab(this,'ds-urls')">URL Inputs</div>
+    <div class="tab" onclick="switchDsTab(this,'ds-api')">API Connections</div>
+    <div class="tab" onclick="switchDsTab(this,'ds-comp')">Competitor Brands</div>
+    <div class="tab" onclick="switchDsTab(this,'ds-brand')">Brand Guidelines</div>
+  </div>
+
+  <div id="ds-files">
+    <div class="card">
+      <div class="card-header"><div class="card-title">File Data Sources</div><button class="btn btn-primary btn-sm" onclick="openModal('uploadModal')">+ Attach Source</button></div>
+      <div id="dsFileList"></div>
+    </div>
+  </div>
+  <div id="ds-urls" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="card-title">URL Inputs</div><button class="btn btn-primary btn-sm" onclick="addUrl()">+ Add URL</button></div>
+      <table><thead><tr><th>URL</th><th>Page Type</th><th>Brand/Competitor</th><th>Scrape Freq.</th><th>Status</th></tr></thead>
+      <tbody id="urlBody"></tbody></table>
+    </div>
+  </div>
+  <div id="ds-api" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="card-title">API Connections</div><button class="btn btn-primary btn-sm" onclick="openModal('apiModal')">+ Connect API</button></div>
+      <div id="apiList"></div>
+    </div>
+  </div>
+  <div id="ds-comp" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Competitor Brands</div><button class="btn btn-primary btn-sm">+ Add Brand</button></div>
+      <table><thead><tr><th>Brand</th><th>Domain</th><th>Key Focus</th><th>Tier</th><th>Status</th></tr></thead>
+      <tbody id="compBrandBody"></tbody></table>
+    </div>
+  </div>
+  <div id="ds-brand" class="hidden">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Brand & Ad Copy Guidelines</div><button class="btn btn-primary btn-sm" onclick="openModal('uploadModal')">+ Upload Doc</button></div>
+      <div id="brandDocList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEEDBACK LOOP ===== -->
+<div id="page-feedback" class="page hidden">
+  <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Measurement & Feedback Loop</div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Post-launch signals feed back into agent scoring models</div>
+
+  <div class="alert alert-green" style="margin-bottom:20px"><span>✓</span><div>Feedback loop connected. 14-day campaign data ingested from Google Ads + GA4.</div></div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="stat-card green"><div class="stat-label">Average CTR</div><div class="stat-value">4.7%</div><div class="stat-change">↑ +1.2% vs benchmark</div></div>
+    <div class="stat-card blue"><div class="stat-label">Conversion Rate</div><div class="stat-value">3.2%</div><div class="stat-change">↑ +0.4% vs last flight</div></div>
+    <div class="stat-card purple"><div class="stat-label">Top Keyword CVR</div><div class="stat-value">5.1%</div><div class="stat-change">"uniqlo sports jacket"</div></div>
+    <div class="stat-card teal"><div class="stat-label">Bounce Rate</div><div class="stat-value">38%</div><div class="stat-change">↓ 6% improvement</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Performance by Time of Day</div>
+      <div id="timeChart" style="display:flex;align-items:flex-end;gap:3px;height:100px">
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px">
+        <span>6am</span><span>9am</span><span>12pm</span><span>3pm</span><span>6pm</span><span>9pm</span><span>12am</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px">Feedback Signals → Model Updates</div>
+      <div style="font-size:13px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px">
+          <span style="color:var(--muted)">Keyword quality weights</span>
+          <span class="tag tag-green">Updated</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px">
+          <span style="color:var(--muted)">Audience intent assumptions</span>
+          <span class="tag tag-green">Updated</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px">
+          <span style="color:var(--muted)">Copy variant preference</span>
+          <span class="tag tag-yellow">Pending (3 days)</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px">
+          <span style="color:var(--muted)">Seasonal timing rules</span>
+          <span class="tag tag-green">Updated</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:var(--surface);border-radius:6px">
+          <span style="color:var(--muted)">Landing page relevance</span>
+          <span class="tag tag-blue">Scheduled</span>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--muted)">
+        ⚡ <strong style="color:#fff">Top insight:</strong> "work to gym" copy angle drove 2.1× higher CTR vs control. Applying to Winter Utility ad group.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+</div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ===== MODALS ===== -->
+<!-- Weight adjust -->
+<div class="modal-overlay" id="weightModal">
+  <div class="modal">
+    <div class="modal-title">⚙ Adjust Keyword Scoring Weights</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Weights must sum to 100%</div>
+    <div id="weightSliders" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div style="margin-top:20px;display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="saveWeights()">Save & Rescore</button>
+      <button class="btn btn-secondary" onclick="closeModal('weightModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal">
+    <div class="modal-title">↗ Export Campaign Package</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked> Campaign Structure JSON</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked> Keyword List (CSV)</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked> RSA Assets (CSV)</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked> Negative Keywords</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox" checked> Quality Scorecards</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox"> Competitor Gap Report</label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer"><input type="checkbox"> Audit Log & Reviewer Approvals</label>
+    </div>
+    <div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;margin-bottom:16px">
+      <div style="color:var(--muted);margin-bottom:4px">Launch Approval Status</div>
+      <div style="color:var(--yellow);font-weight:600">⏳ 2 items pending approval — export will include draft items</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="doExport()">Download Package</button>
+      <button class="btn btn-ghost btn-sm">Push to Google Ads API</button>
+      <button class="btn btn-secondary" onclick="closeModal('exportModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Approve all -->
+<div class="modal-overlay" id="approveAllModal">
+  <div class="modal">
+    <div class="modal-title">✓ Approve All Ad Copy</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px">This will mark all 84 RSA assets as approved and move them to the export queue.</div>
+    <div class="alert alert-yellow"><span>⚠</span><div>2 headlines flagged for potential policy review. Confirm you have reviewed these.</div></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-green" onclick="confirmApproveAll()">Confirm Approve All</button>
+      <button class="btn btn-secondary" onclick="closeModal('approveAllModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Competitor add -->
+<div class="modal-overlay" id="compModal">
+  <div class="modal">
+    <div class="modal-title">+ Add Competitor</div>
+    <div class="form-group"><label>Brand Name</label><input type="text" placeholder="e.g. Arc'teryx" /></div>
+    <div class="form-group"><label>Domain</label><input type="text" placeholder="arcteryx.com" /></div>
+    <div class="form-group"><label>Key Product Focus</label><input type="text" placeholder="Technical outdoor apparel" /></div>
+    <div class="form-group"><label>Priority Tier</label><select><option>Tier 1 — Daily monitor</option><option>Tier 2 — Weekly scan</option><option>Tier 3 — Monthly review</option></select></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-primary" onclick="closeModal('compModal')">Add & Start Monitoring</button>
+      <button class="btn btn-secondary" onclick="closeModal('compModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <div class="modal-title">+ Attach Data Source</div>
+    <div class="form-group"><label>Source Name</label><input type="text" placeholder="e.g. Q1 CRM Export" /></div>
+    <div class="form-group"><label>Source Type</label><select><option>CRM Export</option><option>Campaign Report</option><option>Product Feed</option><option>Seasonality Calendar</option><option>Audience Segment File</option><option>Legal/Compliance Doc</option><option>Brand Guidelines</option></select></div>
+    <div class="form-group"><label>Owner</label><input type="text" placeholder="Team member name" /></div>
+    <div class="form-group"><label>Refresh Frequency</label><select><option>Daily</option><option>Weekly</option><option>Monthly</option><option>One-time</option></select></div>
+    <div style="border:2px dashed var(--border);border-radius:10px;padding:32px;text-align:center;cursor:pointer;margin-bottom:16px" onclick="fakeUpload()">
+      <div style="font-size:24px;margin-bottom:8px">📁</div>
+      <div style="font-size:13px;color:var(--muted)">Click to upload or drag & drop</div>
+      <div style="font-size:11px;color:var(--border);margin-top:4px">CSV, XLSX, PDF, JSON supported</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="closeModal('uploadModal')">Save Source</button>
+      <button class="btn btn-secondary" onclick="closeModal('uploadModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- API -->
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <div class="modal-title">+ Connect API</div>
+    <div class="form-group"><label>API Provider</label><select><option>Google Ads API</option><option>Google Analytics 4</option><option>Semrush</option><option>Ahrefs</option><option>Google Trends</option><option>Salesforce CRM</option><option>HubSpot</option></select></div>
+    <div class="form-group"><label>API Key</label><input type="password" placeholder="Enter API key..." /></div>
+    <div class="form-group"><label>Markets Covered</label><input type="text" placeholder="AU, JP, US" /></div>
+    <div class="form-group"><label>Refresh Cadence</label><select><option>Real-time</option><option>Hourly</option><option>Daily</option><option>Weekly</option></select></div>
+    <div class="form-group"><label>Primary Use Case</label><select><option>Keyword Research</option><option>Performance Data</option><option>Competitor Monitoring</option><option>Audience Data</option></select></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-primary" onclick="closeModal('apiModal')">Connect & Test</button>
+      <button class="btn btn-secondary" onclick="closeModal('apiModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ======================== DATA ========================
+const keywords = [
+  {kw:"uniqlo sports utility jacket",group:"Brand",intent:"Brand-Intent",audience:"Sportswear Shoppers",cpc:"$1.20",vol:"8,400",season:"❄",score:88,status:"Recommended"},
+  {kw:"men's thermal base layer",group:"Winter Utility",intent:"Purchase-Ready",audience:"Winter Utility Shoppers",cpc:"$2.10",vol:"22,000",season:"❄",score:91,status:"Approved"},
+  {kw:"women's performance leggings",group:"Performance",intent:"Purchase-Ready",audience:"Performance Athletes",cpc:"$2.80",vol:"18,500",season:"",score:85,status:"Approved"},
+  {kw:"work to gym clothes",group:"Urban Commuter",intent:"Category Exploration",audience:"Urban Commuters",cpc:"$1.50",vol:"5,200",season:"",score:79,status:"Recommended"},
+  {kw:"versatile activewear",group:"Performance",intent:"Category Exploration",audience:"Sportswear Shoppers",cpc:"$1.80",vol:"9,800",season:"",score:76,status:"Recommended"},
+  {kw:"best fleece jacket australia",group:"Winter Utility",intent:"Comparison",audience:"Winter Utility Shoppers",cpc:"$2.40",vol:"14,300",season:"❄",score:83,status:"Approved"},
+  {kw:"commuter friendly workout clothes",group:"Urban Commuter",intent:"Category Exploration",audience:"Urban Commuters",cpc:"$1.30",vol:"3,100",season:"",score:72,status:"Recommended"},
+  {kw:"uniqlo heattech review",group:"Brand",intent:"Informational",audience:"Returning Customers",cpc:"$0.90",vol:"12,000",season:"❄",score:65,status:"Flagged"},
+  {kw:"winter running jacket",group:"Performance",intent:"Purchase-Ready",audience:"Performance Athletes",cpc:"$3.10",vol:"7,600",season:"❄",score:87,status:"Approved"},
+  {kw:"office to gym outfit",group:"Urban Commuter",intent:"Category Exploration",audience:"Millennials 25–40",cpc:"$1.60",vol:"4,400",season:"",score:78,status:"Recommended"},
+  {kw:"athletic wear sale",group:"Performance",intent:"Deal/Promo",audience:"Sportswear Shoppers",cpc:"$1.90",vol:"31,000",season:"",score:70,status:"Flagged"},
+  {kw:"layering clothes for winter",group:"Winter Utility",intent:"Informational",audience:"Winter Utility Shoppers",cpc:"$1.20",vol:"9,200",season:"❄",score:80,status:"Recommended"},
+];
+
+const adGroups = [
+  {name:"Performance Activewear",audience:"Sportswear Shoppers",score:81,status:"Pending"},
+  {name:"Winter Utility",audience:"Winter Utility Shoppers",score:86,status:"Approved"},
+  {name:"Urban Commuter",audience:"Urban Commuters",score:74,status:"Pending"},
+  {name:"Brand Terms",audience:"Returning Customers",score:77,status:"Approved"},
+  {name:"Competitor Conquest",audience:"Sportswear Shoppers",score:68,status:"Review"},
+  {name:"Seasonal Promos",audience:"All Segments",score:71,status:"Pending"},
+];
+
+const rsaHeadlines = [
+  {text:"Built for City & Trail — Shop Now",pinned:false},
+  {text:"Uniqlo Sports Utility Wear",pinned:true},
+  {text:"Performance That Goes Anywhere",pinned:false},
+  {text:"Commute, Train, Repeat — From $59",pinned:false},
+  {text:"Japan's Precision Meets Urban Life",pinned:false},
+  {text:"All-Day Performance. All-Season Comfort",pinned:false},
+  {text:"Smart Activewear for Real Life",pinned:false},
+  {text:"From Gym to Office Without Changing",pinned:false},
+  {text:"Versatile Layers for Winter & Beyond",pinned:false},
+  {text:"Move Freely in Any Season",pinned:false},
+  {text:"Explore Sports Utility Wear →",pinned:false},
+  {text:"Quality You Can Feel, Prices You'll Love",pinned:false},
+];
+
+const rsaDescriptions = [
+  "Uniqlo Sports Utility Wear moves with you from commute to workout. Designed for urban life, built for performance. Free shipping over $80.",
+  "Versatile, all-season activewear engineered in Japan. Whether you're hitting the gym or heading to the office — Uniqlo keeps up.",
+  "Discover smart layers that adapt to your lifestyle. Shop winter performance essentials with next-day delivery across Australia.",
+];
+
+const competitors = [
+  {name:"Lululemon",domain:"lululemon.com",focus:"Premium athleisure",tier:"Tier 1",status:"🔴 Alert",alert:"Price drop 15% on winter range"},
+  {name:"Nike",domain:"nike.com",focus:"Performance sportswear",tier:"Tier 1",status:"🟡 Monitor",alert:"New 'Any Weather' campaign live"},
+  {name:"Adidas",domain:"adidas.com",focus:"Sport + lifestyle",tier:"Tier 1",status:"🟢 Stable",alert:null},
+  {name:"Patagonia",domain:"patagonia.com",focus:"Sustainable outdoor",tier:"Tier 2",status:"🟢 Stable",alert:null},
+];
+
+const dataSources = [
+  {name:"CRM Q1 Export",type:"CRM Export",owner:"CRM Team",freq:"Monthly",status:"✅ Synced",date:"2025-05-28",icon:"🗂"},
+  {name:"Google Ads History",type:"Campaign Report",owner:"Paid Media",freq:"Daily",status:"✅ Live",date:"2025-06-01",icon:"📊"},
+  {name:"SUW Product Feed",type:"Product Feed",owner:"eCommerce",freq:"Daily",status:"✅ Live",date:"2025-06-01",icon:"🛍"},
+  {name:"Winter 2025 Calendar",type:"Seasonality Calendar",owner:"Marketing Ops",freq:"One-time",status:"✅ Loaded",date:"2025-05-15",icon:"📅"},
+  {name:"Audience Segments",type:"Audience Segment File",owner:"Analytics",freq:"Weekly",status:"⚠ Due refresh",date:"2025-05-20",icon:"👥"},
+  {name:"Legal Compliance Doc",type:"Legal/Compliance",owner:"Legal",freq:"One-time",status:"✅ Loaded",date:"2025-04-01",icon:"⚖"},
+];
+
+const apiConnections = [
+  {name:"Google Ads API",status:"🟢 Connected",markets:"AU, JP",cadence:"Daily",use:"Performance Data"},
+  {name:"Semrush",status:"🟢 Connected",markets:"AU, US, UK",cadence:"Daily",use:"Keyword Research"},
+  {name:"Google Analytics 4",status:"🟢 Connected",markets:"AU",cadence:"Real-time",use:"Conversion Data"},
+  {name:"Google Trends",status:"🟡 Limited",markets:"AU",cadence:"Weekly",use:"Seasonality"},
+];
+
+const gates = [
+  {label:"Keyword Shortlist",status:"approved",comment:"312 keywords approved. 14 flagged negatives added."},
+  {label:"Negative Keywords",status:"approved",comment:"6 negatives confirmed by legal."},
+  {label:"Ad Group Structure",status:"pending",comment:"Awaiting strategist review of 6 proposed groups."},
+  {label:"Competitor Messaging",status:"pending",comment:"Conquest ad copy requires legal sign-off."},
+  {label:"Final RSA Copy",status:"pending",comment:"Pending upstream approvals."},
+];
+
+const auditEntries = [
+  {time:"10:42 AM",user:"Sarah M.",action:"Approved keyword shortlist (312 terms)"},
+  {time:"10:38 AM",user:"Agent 1",action:"Completed keyword scoring run — 847 keywords"},
+  {time:"09:15 AM",user:"Agent 3",action:"Competitor scan complete — 2 alerts raised"},
+  {time:"09:00 AM",user:"System",action:"Context ingestion complete — 7 data sources loaded"},
+  {time:"Yesterday",user:"James K.",action:"Added 6 negative keywords after legal review"},
+  {time:"Yesterday",user:"Agent 2",action:"Generated 84 RSA assets across 6 ad groups"},
+];
+
+// ======================== INIT ========================
+let activeAdGroupIdx = 0;
+let activeDsTab = 'ds-files';
+
+function init(){
+  renderKeywords(keywords);
+  renderAdGroupList();
+  renderRSA(0);
+  renderCompetitorCards();
+  renderGates();
+  renderAuditLog();
+  renderDataSources();
+  renderUrlTable();
+  renderApiList();
+  renderCompBrands();
+  renderBrandDocs();
+  renderTimeChart();
+  renderWeightSliders();
+  setupRangeListeners();
+}
+
+// ======================== NAVIGATION ========================
+function showPage(id, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.getElementById('page-'+id).classList.remove('hidden');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+// ======================== KEYWORDS ========================
+function renderKeywords(data){
+  const tbody = document.getElementById('kwBody');
+  tbody.innerHTML = data.map((k,i)=>`
+    <tr>
+      <td><input type="checkbox" ${k.status==='Approved'?'checked':''}></td>
+      <td style="font-weight:500;color:#fff">${k.kw}</td>
+      <td><span class="tag tag-blue" style="font-size:10px">${k.group}</span></td>
+      <td>
+        <span class="intent-dot" style="background:${intentColor(k.intent)}"></span>
+        <span style="font-size:12px">${k.intent}</span>
+      </td>
+      <td style="font-size:12px;color:var(--muted)">${k.audience}</td>
+      <td style="font-size:12px;color:var(--text)">${k.cpc}</td>
+      <td style="font-size:12px;color:var(--text)">${k.vol}</td>
+      <td style="font-size:14px">${k.season}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="score-bar" style="width:60px"><div class="score-fill ${k.score>=80?'high':k.score>=65?'med':'low'}" style="width:${k.score}%"></div></div>
+          <span style="font-size:12px;font-weight:600;color:${k.score>=80?'var(--green)':k.score>=65?'var(--yellow)':'var(--red)'}">${k.score}</span>
+        </div>
+      </td>
+      <td><span class="tag ${statusTag(k.status)}">${k.status}</span></td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-sm" style="background:rgba(34,197,94,.15);color:var(--green);border:none;padding:3px 8px;font-size:11px" onclick="approveKw(${i})">✓</button>
+          <button class="btn btn-sm" style="background:rgba(239,68,68,.15);color:var(--red);border:none;padding:3px 8px;font-size:11px" onclick="rejectKw(${i})">✗</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function intentColor(i){
+  const m={
+    'Purchase-Ready':'var(--green)',
+    'Comparison':'var(--blue)',
+    'Category Exploration':'var(--purple)',
+    'Informational':'var(--muted)',
+    'Brand-Intent':'var(--teal)',
+    'Deal/Promo':'var(--yellow)'
+  };
+  return m[i]||'var(--muted)';
+}
+
+function statusTag(s){
+  return s==='Approved'?'tag-green':s==='Flagged'?'tag-red':'tag-yellow';
+}
+
+function filterKeywords(){
+  const intent = document.getElementById('filterIntent').value;
+  const aud = document.getElementById('filterAudience').value;
+  const stat = document.getElementById('filterStatus').value;
+  const search = document.getElementById('kwSearch').value.toLowerCase();
+  const filtered = keywords.filter(k=>{
+    return (!intent||k.intent===intent) &&
+           (!aud||k.audience===aud) &&
+           (!stat||k.status===stat) &&
+           (!search||k.kw.includes(search));
+  });
+  renderKeywords(filtered);
+}
+
+function switchAdGroup(el, group){
+  document.querySelectorAll('#adGroupTabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(group==='all') renderKeywords(keywords);
+  else renderKeywords(keywords.filter(k=>k.group.toLowerCase().includes(group)));
+}
+
+function approveKw(i){
+  keywords[i].status = 'Approved';
+  filterKeywords();
+  logAudit('You',`Approved keyword: "${keywords[i].kw}"`);
+}
+function rejectKw(i){
+  keywords[i].status = 'Flagged';
+  filterKeywords();
+  logAudit('You',`Flagged keyword: "${keywords[i].kw}"`);
+}
+function toggleAllKw(cb){
+  keywords.forEach(k=>k.status = cb.checked?'Approved':'Recommended');
+  filterKeywords();
+}
+function approveAllKw(){
+  keywords.forEach(k=>{if(k.score>=75)k.status='Approved';});
+  filterKeywords();
+  logAudit('You','Bulk approved all keywords with score ≥ 75');
+}
+function addNegative(){
+  const kw = prompt('Enter negative keyword:');
+  if(kw){
+    const div = document.getElementById('negativeTags');
+    const span = document.createElement('span');
+    span.className='tag tag-red';
+    span.textContent=kw;
+    div.appendChild(span);
+  }
+}
+
+// ======================== AD COPY ========================
+function renderAdGroupList(){
+  const list = document.getElementById('adGroupList');
+  list.innerHTML = adGroups.map((g,i)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer;background:${activeAdGroupIdx===i?'rgba(233,69,96,.1)':'var(--surface)'};border:1px solid ${activeAdGroupIdx===i?'var(--accent)':'var(--border)'}" onclick="selectAdGroup(${i})">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#fff">${g.name}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${g.audience}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;font-weight:700;color:${g.score>=80?'var(--green)':g.score>=70?'var(--yellow)':'var(--red)'}">${g.score}</div>
+        <span class="tag ${g.status==='Approved'?'tag-green':g.status==='Pending'?'tag-yellow':'tag-red'}" style="font-size:10px">${g.status}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectAdGroup(i){
+  activeAdGroupIdx = i;
+  renderAdGroupList();
+  document.getElementById('activeAdGroupTitle').textContent = adGroups[i].name;
+  document.getElementById('activeGroupAudience').textContent = adGroups[i].audience;
+  document.getElementById('activeGroupScore').textContent = `Score: ${adGroups[i].score}/100`;
+  renderRSA(i);
+}
+
+function renderRSA(idx){
+  const hWrap = document.getElementById('rsaHeadlines');
+  hWrap.innerHTML = rsaHeadlines.map((h,i)=>`
+    <div class="rsa-headline">
+      <span>${h.text}</span>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:10px;color:var(--muted)">${h.text.length}/30</span>
+        <span class="rsa-pin ${h.pinned?'pinned':''}" onclick="togglePin(${i})" data-tip="Pin to position">${h.pinned?'📌 Pinned':'Pin'}</span>
+      </div>
+    </div>
+  `).join('');
+
+  const dWrap = document.getElementById('rsaDescriptions');
+  dWrap.innerHTML = rsaDescriptions.map(d=>`
+    <div class="rsa-desc">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <span>${d}</span>
+        <span style="font-size:10px;color:var(--muted);white-space:nowrap">${d.length}/90</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePin(i){
+  rsaHeadlines[i].pinned = !rsaHeadlines[i].pinned;
+  renderRSA(activeAdGroupIdx);
+}
+
+function approveCopy(){
+  adGroups[activeAdGroupIdx].status = 'Approved';
+  renderAdGroupList();
+  logAudit('You',`Approved ad copy for "${adGroups[activeAdGroupIdx].name}"`);
+  alert('✓ Ad copy approved and queued for export.');
+}
+
+function rejectCopy(){
+  adGroups[activeAdGroupIdx].status = 'Pending';
+  renderAdGroupList();
+  logAudit('You',`Rejected ad copy for "${adGroups[activeAdGroupIdx].name}"`);
+}
+
+function regenerateCopy(){
+  const btn = event.target;
+  btn.textContent = '⟳ Generating...';
+  setTimeout(()=>{
+    btn.textContent = '⟳ Regenerate';
+    logAudit('Agent 2',`Regenerated copy for "${adGroups[activeAdGroupIdx].name}"`);
+  },1500);
+}
+
+function editCopyModal(){
+  alert('✎ Inline editor — in a full implementation, this opens a rich text editor with version diff.');
+}
+
+function confirmApproveAll(){
+  adGroups.forEach(g=>g.status='Approved');
+  renderAdGroupList();
+  closeModal('approveAllModal');
+  logAudit('You','Bulk approved all ad copy assets');
+}
+
+// ======================== COMPETITORS ========================
+function renderCompetitorCards(){
+  const half1 = competitors.slice(0,2);
+  const half2 = competitors.slice(2);
+  document.getElementById('compCards').innerHTML = half1.map(renderCompCard).join('');
+  document.getElementById('compCards2').innerHTML = half2.map(renderCompCard).join('');
+}
+
+function renderCompCard(c){
+  return `
+    <div class="comp-card" style="margin-bottom:12px">
+      <div class="comp-name">
+        <span>${c.name}</span>
+        <span class="tag ${c.status.includes('🔴')?'tag-red':c.status.includes('🟡')?'tag-yellow':'tag-green'}" style="font-size:11px">${c.status}</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${c.domain} · ${c.focus} · <strong>${c.tier}</strong></div>
+      ${c.alert?`<div class="alert alert-yellow" style="margin:0;padding:8px 10px;font-size:12px">⚠ ${c.alert}</div>`:'<div style="font-size:12px;color:var(--green)">✓ No changes detected</div>'}
+    </div>
+  `;
+}
+
+function runCompetitorScan(){
+  const btn = event.target;
+  btn.textContent = '🔄 Scanning...';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.textContent = '🔄 Run Scan Now';
+    btn.disabled = false;
+    logAudit('Agent 3','Competitor scan completed — no new urgent signals');
+    alert('✓ Scan complete. No new competitor changes detected.');
+  },2000);
+}
+
+// ======================== APPROVALS ========================
+function renderGates(){
+  const list = document.getElementById('gateList');
+  list.innerHTML = gates.map((g,i)=>`
+    <div class="gate">
+      <div class="gate-icon ${g.status}">
+        ${g.status==='approved'?'✓':g.status==='rejected'?'✗':'⏳'}
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:#fff">${g.label}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${g.comment}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        ${g.status==='pending'?`
+          <button class="btn btn-sm" style="background:rgba(34,197,94,.15);color:var(--green);border:none" onclick="approveGate(${i})">Approve</button>
+          <button class="btn btn-sm" style="background:rgba(239,68,68,.15);color:var(--red);border:none" onclick="rejectGate(${i})">Reject</button>
+        `:`<span class="tag ${g.status==='approved'?'tag-green':'tag-red'}">${g.status}</span>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+function approveGate(i){
+  gates[i].status = 'approved';
+  renderGates();
+  logAudit('You',`Approved: ${gates[i].label}`);
+}
+function rejectGate(i){
+  gates[i].status = 'rejected';
+  renderGates();
+  logAudit('You',`Rejected: ${gates[i].label}`);
+}
+
+function renderAuditLog(){
+  const log = document.getElementById('auditLog');
+  log.innerHTML = auditEntries.map(e=>`
+    <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(45,63,107,.4)">
+      <div style="min-width:70px;color:var(--muted)">${e.time}</div>
+      <div><strong style="color:var(--accent)">${e.user}</strong> <span style="color:var(--text)">${e.action}</span></div>
+    </div>
+  `).join('');
+}
+
+function logAudit(user, action){
+  const now = new Date();
+  const time = now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  auditEntries.unshift({time,user,action});
+  renderAuditLog();
+}
+
+// ======================== DATA SOURCES ========================
+function renderDataSources(){
+  const list = document.getElementById('dsFileList');
+  list.innerHTML = dataSources.map(d=>`
+    <div class="ds-row">
+      <div class="ds-icon" style="background:var(--surface);font-size:20px">${d.icon}</div>
+      <div class="ds-info">
+        <div class="ds-name">${d.name}</div>
+        <div class="ds-meta">${d.type} · Owner: ${d.owner} · Refresh: ${d.freq} · Last sync: ${d.date}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:12px">${d.status}</span>
+        <button class="btn btn-ghost btn-sm">⟳</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderUrlTable(){
+  const urls = [
+    {url:'uniqlo.com/au/en/feature/sports-utility-wear',type:'Landing Page',brand:'Uniqlo',freq:'Daily',status:'🟢'},
+    {url:'uniqlo.com/au/en/category/activewear',type:'Category Page',brand:'Uniqlo',freq:'Daily',status:'🟢'},
+    {url:'lululemon.com/en-au',type:'Competitor',brand:'Lululemon',freq:'Daily',status:'🟡'},
+    {url:'nike.com/au/w/mens-winter-running',type:'Competitor',brand:'Nike',freq:'Daily',status:'🟢'},
+    {url:'uniqlo.com/au/en/feature/winter2025',type:'Seasonal Campaign',brand:'Uniqlo',freq:'Weekly',status:'🟢'},
+  ];
+  document.getElementById('urlBody').innerHTML = urls.map(u=>`
+    <tr>
+      <td style="font-size:12px;color:var(--blue)">${u.url}</td>
+      <td><span class="tag tag-muted">${u.type}</span></td>
+      <td style="font-size:12px">${u.brand}</td>
+      <td style="font-size:12px;color:var(--muted)">${u.freq}</td>
+      <td style="font-size:13px">${u.status}</td>
+    </tr>
+  `).join('');
+}
+
+function renderApiList(){
+  const list = document.getElementById('apiList');
+  list.innerHTML = apiConnections.map(a=>`
+    <div class="ds-row">
+      <div class="ds-icon" style="background:var(--surface)">🔌</div>
+      <div class="ds-info">
+        <div class="ds-name">${a.name}</div>
+        <div class="ds-meta">Markets: ${a.markets} · Cadence: ${a.cadence} · Use: ${a.use}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px">${a.status}</span>
+        <button class="btn btn-ghost btn-sm">Test</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCompBrands(){
+  document.getElementById('compBrandBody').innerHTML = competitors.map(c=>`
+    <tr>
+      <td style="font-weight:600;color:#fff">${c.name}</td>
+      <td style="font-size:12px;color:var(--blue)">${c.domain}</td>
+      <td style="font-size:12px">${c.focus}</td>
+      <td><span class="tag ${c.tier==='Tier 1'?'tag-red':'tag-yellow'}">${c.tier}</span></td>
+      <td style="font-size:13px">${c.status}</td>
+    </tr>
+  `).join('');
+}
+
+function renderBrandDocs(){
+  const docs = [
+    {name:'Brand Voice Guidelines v3',market:'AU/Global',owner:'Brand Team',version:'3.0',date:'2025-01-15',type:'Brand'},
+    {name:'Ad Copy Rules — Google SEM',market:'AU',owner:'Paid Media',version:'2.1',date:'2025-03-01',type:'Ad Copy'},
+    {name:'Legal Compliance Matrix',market:'AU',owner:'Legal',version:'1.4',date:'2025-04-01',type:'Legal'},
+    {name:'Sports Utility Wear Messaging Guide',market:'Global',owner:'Product Mktg',version:'1.0',date:'2025-05-01',type:'Brand'},
+  ];
+  document.getElementById('brandDocList').innerHTML = docs.map(d=>`
+    <div class="ds-row">
+      <div class="ds-icon" style="background:var(--surface)">📄</div>
+      <div class="ds-info">
+        <div class="ds-name">${d.name}</div>
+        <div class="ds-meta">${d.type} · Market: ${d.market} · Owner: ${d.owner} · v${d.version} · Effective: ${d.date}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm">View</button>
+        <button class="btn btn-ghost btn-sm">↑ Update</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchDsTab(el, id){
+  document.querySelectorAll('#dsTabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['ds-files','ds-urls','ds-api','ds-comp','ds-brand'].forEach(t=>{
+    document.getElementById(t).classList.toggle('hidden',t!==id);
+  });
+}
+
+function addUrl(){
+  const url = prompt('Enter URL to track:');
+  if(url) alert(`✓ URL "${url}" added for scraping.`);
+}
+
+// ======================== FEEDBACK / TIME CHART ========================
+function renderTimeChart(){
+  const data = [12,18,35,68,55,42,78,92,85,70,65,80,90,88,82,76,95,100,88,72,60,45,28,15];
+  const wrap = document.getElementById('timeChart');
+  if(!wrap) return;
+  wrap.innerHTML = data.map((v,i)=>`
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;height:100%">
+      <div style="flex:1;width:100%;display:flex;align-items:flex-end">
+        <div style="width:100%;height:${v}%;background:${v>=80?'var(--accent)':v>=50?'var(--blue)':'var(--border)'};border-radius:3px 3px 0 0;transition:height .5s"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ======================== WEIGHTS ========================
+const weightData = [
+  {label:'Search Intent Fit',value:25},
+  {label:'Audience Relevance',value:20},
+  {label:'Seasonality',value:15},
+  {label:'Search Volume',value:15},
+  {label:'CPC Efficiency',value:10},
+  {label:'Historical Performance',value:10},
+  {label:'Competitor Whitespace',value:5},
+];
+
+function renderWeightSliders(){
+  const wrap = document.getElementById('weightSliders');
+  if(!wrap) return;
+  wrap.innerHTML = weightData.map((w,i)=>`
+    <div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <label style="color:var(--text);font-size:13px">${w.label}</label>
+        <span id="wLabel${i}" style="color:var(--accent);font-weight:700">${w.value}%</span>
+      </div>
+      <input type="range" min="0" max="50" value="${w.value}" oninput="document.getElementById('wLabel${i}').textContent=this.value+'%'" style="width:100%;height:4px">
+    </div>
+  `).join('');
+}
+
+function setupRangeListeners(){
+  document.querySelectorAll('[id^="w"]').forEach(el=>{
+    if(el.tagName==='INPUT'){
+      el.addEventListener('input',function(){
+        const idx = this.id.replace('w','');
+        if(document.getElementById('w'+idx)) document.getElementById('w'+idx).textContent = this.value+'%';
+      });
+    }
+  });
+  // main approval weights
+  document.querySelector('#w1')&&document.querySelectorAll('input[type=range]').forEach(r=>{
+    r.addEventListener('input',function(){
+      const id = this.nextElementSibling?.id;
+      if(id) document.getElementById(id).textContent = this.value+'%';
+    });
+  });
+}
+
+function saveWeights(){
+  closeModal('weightModal');
+  logAudit('You','Adjusted keyword scoring weights');
+  alert('✓ Weights saved. Keywords rescored.');
+}
+
+function applyWeights(){
+  logAudit('You','Applied custom scoring weights');
+  alert('✓ Weights applied. Keyword scores updated.');
+}
+
+// ======================== MODALS ========================
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',function(e){if(e.target===this) this.classList.remove('open')});
+});
+
+// ======================== MISC ========================
+function toggleAudience(el){
+  const active = el.classList.contains('tag-blue');
+  el.className = 'tag ' + (active?'tag-muted':'tag-blue');
+  el.textContent = active ? el.textContent.replace('✓ ','') : '✓ '+el.textContent;
+}
+
+function saveStrategy(){
+  logAudit('You','Updated strategy configuration — agents queued for re-run');
+  alert('✓ Strategy saved. Agents will re-run with updated context.');
+}
+
+function updateSeason(){
+  const v = document.getElementById('seasonSelect').value;
+  const info = document.getElementById('seasonInfo');
+  const seasons = {
+    'Winter (Jun–Aug)':{icon:'❄',color:'var(--teal)',notes:['Thermal layers: <strong style="color:#fff">+34% search volume</strong>','"Winter utility wear": <strong style="color:#fff">+28% YoY</strong>','Urgency language recommended','Product focus: HeatTech, fleece jackets']},
+    'Spring Transition (Sep–Oct)':{icon:'🌸',color:'var(--green)',notes:['Lightweight layers trending','Rain/wind protection rising','"Versatile spring jacket": +18%','Product focus: light outer layers']},
+    'Summer (Dec–Feb)':{icon:'☀',color:'var(--yellow)',notes:['UV-protection searches up','"Breathable activewear": peak','Product focus: shorts, tanks','Peak competition period']},
+    'Back-to-Gym (Jan)':{icon:'🏋',color:'var(--purple)',notes:['"New year activewear": spike','Gym memberships driving intent','Budget-conscious messaging effective','Product focus: base layers, leggings']},
+  };
+  const s = seasons[v]||seasons['Winter (Jun–Aug)'];
+  info.innerHTML = `<div style="font-weight:600;color:${s.color};margin-bottom:6px">${s.icon} Season signals active</div>${s.notes.map(n=>`<div style="color:var(--muted)">• ${n}</div>`).join('')}`;
+}
+
+function runAllAgents(){
+  const btn = event.target;
+  btn.textContent = '⟳ Running...';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.textContent = '▶ Run All Agents';
+    btn.disabled = false;
+    logAudit('System','All agents re-run complete');
+    alert('✓ All agents completed successfully.');
+  },2500);
+}
+
+function addAudienceModal(){
+  const seg = prompt('Enter new audience segment:');
+  if(seg){
+    const chips = document.getElementById('audienceChips');
+    const div = document.createElement('div');
+    div.className = 'tag tag-blue';
+    div.style.cursor='pointer';
+    div.textContent = '✓ '+seg;
+    div.onclick = function(){toggleAudience(this)};
+    chips.appendChild(div);
+  }
+}
+
+function doExport(){
+  closeModal('exportModal');
+  logAudit('You','Campaign package exported');
+  alert('📦 Campaign package downloaded!\n\nIncludes: Campaign JSON, Keyword CSV, RSA Assets CSV, Quality Scorecards, Negative Keywords.');
+}
+
+function fakeUpload(){
+  setTimeout(()=>alert('✓ File uploaded and parsed successfully.'),500);
+}
+
+function approveAllKwModal(){
+  approveAllKw();
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', init);
+init();
+</script>
+</body>
+</html>
