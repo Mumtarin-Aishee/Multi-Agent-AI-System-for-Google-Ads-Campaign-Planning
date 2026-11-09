@@ -47,23 +47,9 @@ Then open <http://localhost:5180>.
 
 An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
 
-```mermaid
-flowchart TD
-    A[Strategy Setup<br/>goals, audience, seasonality, brand] --> C[Shared Context Layer]
-    B[Data Sources<br/>URLs, APIs, documents] --> C
-    C --> O{Orchestration Layer}
-    O --> M[Competitor Monitoring Agent]
-    O --> K[Keyword Intelligence Agent]
-    O --> W[Ad Copy Agent]
-    M -- saturation and whitespace --> K
-    M -- messaging opportunities --> W
-    K --> HK[Human review:<br/>keywords, negatives, ad groups]
-    HK -- approved strategy --> W
-    W --> HW[Human review:<br/>messaging, RSA copy]
-    HK -- edit or override --> K
-    HW -- edit or override --> W
-    HW --> P[Campaign Package<br/>export and upload]
-```
+[![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](architecture)
+
+The animation above is recorded from the interactive app in [`architecture/`](architecture). To play it, step through it, or click any part of the diagram, run the app locally and open <http://localhost:5180>.
 
 ### Agents
 
