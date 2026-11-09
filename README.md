@@ -41,8 +41,6 @@ npm install
 npm run dev
 ```
 
-Then open <http://localhost:5180>.
-
 ## Architecture
 
 An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
