@@ -21,15 +21,75 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-## Demo
+## Demo videos
 
-| Part | Covers | Length |
-| --- | --- | --- |
-| [Part 1](docs/demo/part-1-overview-and-setup.mp4) | How the agents coordinate, and how Strategy Setup and Data Sources build the shared context | 1:26 |
-| [Part 2](docs/demo/part-2-keywords-and-competitors.mp4) | Keyword Intelligence Agent, Competitor Monitoring Agent, and the market-shift signal | 2:00 |
-| [Part 3](docs/demo/part-3-ad-copy-and-approvals.mp4) | Ad Copy Agent, scoring, human-in-the-loop approvals, audit trail, and the campaign package | 1:36 |
+The previews below play at 4× speed without sound. Open a full video to hear the walkthrough.
+
+### Part 1: Shared context
+
+How the agents coordinate, and how Strategy Setup and Data Sources build the shared context.
+
+[![Part 1 preview](docs/demo/part-1-preview.gif)](docs/demo/part-1-overview-and-setup.mp4)
+
+**[Watch the full Part 1 video with narration (1:26)](docs/demo/part-1-overview-and-setup.mp4)**
+
+### Part 2: Keyword and Competitor agents
+
+Keyword Intelligence, Competitor Monitoring, and the market-shift signal.
+
+[![Part 2 preview](docs/demo/part-2-preview.gif)](docs/demo/part-2-keywords-and-competitors.mp4)
+
+**[Watch the full Part 2 video with narration (2:00)](docs/demo/part-2-keywords-and-competitors.mp4)**
+
+### Part 3: Ad copy, approvals, and export
+
+Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the campaign package.
+
+[![Part 3 preview](docs/demo/part-3-preview.gif)](docs/demo/part-3-ad-copy-and-approvals.mp4)
+
+**[Watch the full Part 3 video with narration (1:36)](docs/demo/part-3-ad-copy-and-approvals.mp4)**
 
 To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
+
+## What the output looks like
+
+The final output is a campaign package. These screens are taken from the demo and show sample data from the prototype.
+
+### Keywords
+
+Keywords scored and classified by ad group, search intent, and audience, with an approve or reject action on each.
+
+![Keyword table with intent, audience, score, and status](docs/output/keywords.jpg)
+
+### Competitor insights
+
+Saturated claims, open whitespace, recommended angles, and urgency alerts.
+
+![Competitor Monitoring page with whitespace opportunities](docs/output/competitor-insights.jpg)
+
+### Ad groups and RSA copy
+
+Six ad groups, each with responsive search ad headlines and an ad copy score breakdown.
+
+![Ad Copy Studio with ad groups, score breakdown, and headlines](docs/output/ad-copy.jpg)
+
+### Quality scorecards
+
+Scores for keyword opportunity, audience fit, seasonal demand, competitor whitespace, and ad copy readiness.
+
+![Overview page with workflow status and quality scorecards](docs/output/scorecards.jpg)
+
+### Approvals and audit trail
+
+Five approval gates, with every agent and reviewer action recorded.
+
+![Review and Approval Queue with audit trail](docs/output/approvals.jpg)
+
+### Export package
+
+The package contents a user selects for export. The screen is a mock: export is not yet properly built.
+
+![Export Campaign Package dialog listing package contents](docs/output/export-package.jpg)
 
 ## Animated workflow
 
