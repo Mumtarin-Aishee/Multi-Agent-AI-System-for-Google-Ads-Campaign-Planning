@@ -25,11 +25,23 @@ An agentic system that produces a complete campaign package, ready for export an
 
 | Part | Covers | Length |
 | --- | --- | --- |
-| [Part 1](docs/demo/part-1-overview-and-setup.mp4) | Overview, Strategy Setup, Data Sources, Competitor Monitoring | 1:26 |
-| [Part 2](docs/demo/part-2-keywords-and-competitors.mp4) | Keyword scoring and shortlist, Competitor Monitoring, Ad Copy Studio | 2:00 |
-| [Part 3](docs/demo/part-3-ad-copy-and-approvals.mp4) | Ad Copy Studio, approval gates, audit trail, reviewer controls | 1:36 |
+| [Part 1](docs/demo/part-1-overview-and-setup.mp4) | How the agents coordinate, and how Strategy Setup and Data Sources build the shared context | 1:26 |
+| [Part 2](docs/demo/part-2-keywords-and-competitors.mp4) | Keyword Intelligence Agent, Competitor Monitoring Agent, and the market-shift signal | 2:00 |
+| [Part 3](docs/demo/part-3-ad-copy-and-approvals.mp4) | Ad Copy Agent, scoring, human-in-the-loop approvals, audit trail, and the campaign package | 1:36 |
 
 To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
+
+## Animated workflow
+
+[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
+
+```bash
+cd architecture
+npm install
+npm run dev
+```
+
+Then open <http://localhost:5180>.
 
 ## Architecture
 
@@ -100,7 +112,7 @@ Reviewers can approve, edit, or override decisions before deployment. The protot
 | Ad copy review and headline pinning | Google Ads, GA4, CRM, or other API integrations |
 | Approval gates and an in-session audit trail | Competitor scraping or monitoring |
 | Scoring weight controls | Live scoring against real data |
-| Export dialog | Authentication, persistence, and access control |
+| Placeholder export dialog | Real package export, authentication, persistence, and access control |
 | | Google Ads policy validation, testing, and monitoring |
 
 ## Path to production
