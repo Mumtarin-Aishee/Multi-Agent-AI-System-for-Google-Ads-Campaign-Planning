@@ -47,9 +47,9 @@ Then open <http://localhost:5180>.
 
 An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
 
-[![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](architecture)
+[![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](https://architecture-tau-nine.vercel.app)
 
-The animation above is recorded from the interactive app in [`architecture/`](architecture). To play it, step through it, or click any part of the diagram, run the app locally and open <http://localhost:5180>.
+**[Open the live interactive workflow](https://architecture-tau-nine.vercel.app)** to play it, step through it, or click any part of the diagram. The source is in [`architecture/`](architecture).
 
 ### Agents
 
