@@ -19,6 +19,12 @@ In the Google Ads pre-launch phase, most search campaigns are built in silos, wi
 | **Competitor Monitoring** | Tracks competitor messaging, promotions, and trends to find what is saturated and where there is opportunity | Whitespace analysis, urgency alerts, recommended angles |
 | **Ad Copy** | Turns the approved keyword strategy and competitor insights into RSAs aligned with audience, seasonality, landing pages, and brand guidelines | RSA assets with scorecards |
 
+### Agent output dashboard
+
+What the three agents produce, in one view. Click the image to see it at full size.
+
+[![Agent output dashboard showing keywords, competitor insights, ad groups and RSA copy, and highlights](docs/output/agent-dashboard.png)](docs/output/agent-dashboard.png)
+
 ### Shared context
 
 All three agents draw on the same inputs from **Strategy Setup** and **Data Sources**, where users enter campaign goals, audience, and seasonality, and connect data sources, URLs, and APIs. This keeps keyword strategy and ad copy aligned with campaign objectives.
@@ -74,24 +80,6 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 
 To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
 
-
-### Keywords
-
-Keywords scored and classified by ad group, search intent, and audience, with an approve or reject action on each.
-
-![Keyword table with intent, audience, score, and status](docs/output/keywords.jpg)
-
-### Competitor insights
-
-Saturated claims, open whitespace, recommended angles, and urgency alerts.
-
-![Competitor Monitoring page with whitespace opportunities](docs/output/competitor-insights.jpg)
-
-### Ad groups and RSA copy
-
-Six ad groups, each with responsive search ad headlines and an ad copy score breakdown.
-
-![Ad Copy Studio with ad groups, score breakdown, and headlines](docs/output/ad-copy.jpg)
 
 ### Quality scorecards
 
