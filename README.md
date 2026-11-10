@@ -102,15 +102,14 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 ## What the output looks like
 
 The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard-at-one-glance). Scorecards, approvals, and the export package are shown in the [quality, approval, and export dashboard](#quality-approval-and-export-dashboard). Both use sample data from the prototype.
-### Quality, approval, and export dashboard
 
+### Quality Scorecard, Human approval, and Final Export dashboard
 How outputs are scored, approved, logged, and packaged for upload, in one view. The export screen is a mock: export is not yet properly built. Click the image to see it at full size.
 
 [![Dashboard showing quality scorecards, approval gates and audit trail, the export package, and how they fit together](docs/output/review-export-dashboard.png)](docs/output/review-export-dashboard.png)
 
 
-### Scoring
-
+#### Keyword Scoring
 Keyword priority in the prototype uses a weighted formula, with weights adjustable by reviewers:
 
 ```text
@@ -123,6 +122,8 @@ score = 0.25 × Search Intent Fit
       + 0.05 × Competitor Whitespace
 ```
 
+
+#### Ad copy Scoring : 
 Ad copy is scored on brand voice fit, landing page relevance, audience match, policy safety, keyword coverage, and seasonal fit.
 
 
