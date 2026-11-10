@@ -56,7 +56,7 @@ An orchestration layer coordinates three agents through shared context. Each age
 
 **[Open the live interactive workflow](https://architecture-tau-nine.vercel.app)** to play it, step through it, or click any part of the diagram. The source is in [`architecture/`](architecture).
 
-Keyword agent is influenced by Competitor, Ad Copy is influenced by both Keyword and Ad Copy agents; however, Competitor agent works like an inter-agent information flow that provides information biut not received any from the other agents. 
+Keyword agent is influenced by Competitor, Ad Copy is influenced by both Keyword and Ad Copy agents; however, Competitor agent works like an inter-agent information flow that provides information but it does not receive any from the other agents. 
 
 
 ## How the Agentic System Works (Demo videos)
