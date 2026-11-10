@@ -84,6 +84,16 @@ To try the prototype, download [`prototype/index.html`](prototype/index.html) an
 
 The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard). The screens below show the rest, using sample data from the prototype.
 
+## Animated workflow
+
+[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
+
+```bash
+cd architecture
+npm install
+npm run dev
+```
+
 ### Quality scorecards
 
 Scores for keyword opportunity, audience fit, seasonal demand, competitor whitespace, and ad copy readiness.
@@ -102,17 +112,7 @@ The package contents a user selects for export. The screen is a mock: export is 
 
 ![Export Campaign Package dialog listing package contents](docs/output/export-package.jpg)
 
-## Animated workflow
-
-[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
-
-```bash
-cd architecture
-npm install
-npm run dev
-```
-
-## Architecture
+## Multi-Agent Workflow Architecture
 
 An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
 
