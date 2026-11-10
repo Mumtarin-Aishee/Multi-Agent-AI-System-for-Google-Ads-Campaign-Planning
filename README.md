@@ -60,7 +60,7 @@ How the agents coordinate, and how Strategy Setup and Data Sources build the sha
 
 [![Part 1 preview](docs/demo/part-1-preview.gif)](docs/demo/part-1-overview-and-setup.mp4)
 
-**[Watch the full Part 1 video with narration (1:26)](docs/demo/part-1-overview-and-setup.mp4)**
+**[Watch the full Part 1 youtube video with narration (1:26)] (https://youtu.be/7dmze3eRXM4?si=WbbygqZ-R339Ne3r)**
 
 ### Part 2: Keyword and Competitor agents
 
@@ -68,7 +68,7 @@ Keyword Intelligence, Competitor Monitoring, and the market-shift signal.
 
 [![Part 2 preview](docs/demo/part-2-preview.gif)](docs/demo/part-2-keywords-and-competitors.mp4)
 
-**[Watch the full Part 2 video with narration (2:00)](docs/demo/part-2-keywords-and-competitors.mp4)**
+**[Watch the full Part 2 youtube video with narration (2:00)] (https://youtu.be/rCGLRmrLVuw?si=wyASdeiO6fwylRyg)**
 
 ### Part 3: Ad copy, approvals, and export
 
@@ -76,7 +76,7 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 
 [![Part 3 preview](docs/demo/part-3-preview.gif)](docs/demo/part-3-ad-copy-and-approvals.mp4)
 
-**[Watch the full Part 3 video with narration (1:36)](docs/demo/part-3-ad-copy-and-approvals.mp4)**
+**[Watch the full Part 3 youtube video with narration (1:36)](https://youtu.be/N9eusQl2ybM?si=2TkEh71maULpGr1r)**
 
 To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
 
