@@ -43,6 +43,7 @@ Reviewers can approve, edit, or override decisions before deployment. The protot
 
 An agentic system that produces a complete campaign package, ready for export and upload:
 
+- Export package
 - Prioritized keywords
 - Ad groups
 - Negative keywords
@@ -50,7 +51,23 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-## Demo videos
+The package contents a user selects for export. The screen is a mock: export is not yet properly built.
+
+![Export Campaign Package dialog listing package contents](docs/output/export-package.jpg)
+
+### Quality scorecards
+
+Scores for keyword opportunity, audience fit, seasonal demand, competitor whitespace, and ad copy readiness.
+
+![Overview page with workflow status and quality scorecards](docs/output/scorecards.jpg)
+
+### Approvals and audit trail
+
+Five approval gates, with every agent and reviewer action recorded.
+
+![Review and Approval Queue with audit trail](docs/output/approvals.jpg)
+
+## How the Agentic System Works (Demo videos)
 
 The previews below play at 4× speed without sound. Open a full video to hear the walkthrough.
 
@@ -94,23 +111,6 @@ npm install
 npm run dev
 ```
 
-### Quality scorecards
-
-Scores for keyword opportunity, audience fit, seasonal demand, competitor whitespace, and ad copy readiness.
-
-![Overview page with workflow status and quality scorecards](docs/output/scorecards.jpg)
-
-### Approvals and audit trail
-
-Five approval gates, with every agent and reviewer action recorded.
-
-![Review and Approval Queue with audit trail](docs/output/approvals.jpg)
-
-### Export package
-
-The package contents a user selects for export. The screen is a mock: export is not yet properly built.
-
-![Export Campaign Package dialog listing package contents](docs/output/export-package.jpg)
 
 ## Multi-Agent Workflow Architecture
 
