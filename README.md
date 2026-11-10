@@ -51,6 +51,25 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
+## Animated workflow
+
+[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
+
+```bash
+cd architecture
+npm install
+npm run dev
+```
+
+## Multi-Agent Workflow Architecture
+
+An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
+
+[![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](https://architecture-tau-nine.vercel.app)
+
+**[Open the live interactive workflow](https://architecture-tau-nine.vercel.app)** to play it, step through it, or click any part of the diagram. The source is in [`architecture/`](architecture).
+
+
 ## How the Agentic System Works (Demo videos)
 
 The previews below play at 4× speed without sound. Open a full video to hear the walkthrough.
@@ -89,25 +108,6 @@ How outputs are scored, approved, logged, and packaged for upload, in one view. 
 
 [![Dashboard showing quality scorecards, approval gates and audit trail, the export package, and how they fit together](docs/output/review-export-dashboard.png)](docs/output/review-export-dashboard.png)
 
-
-## Animated workflow
-
-[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
-
-```bash
-cd architecture
-npm install
-npm run dev
-```
-
-
-## Multi-Agent Workflow Architecture
-
-An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
-
-[![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](https://architecture-tau-nine.vercel.app)
-
-**[Open the live interactive workflow](https://architecture-tau-nine.vercel.app)** to play it, step through it, or click any part of the diagram. The source is in [`architecture/`](architecture).
 
 ### Scoring
 
