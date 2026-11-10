@@ -80,6 +80,9 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 
 To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
 
+## What the output looks like
+
+The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard). The screens below show the rest, using sample data from the prototype.
 
 ### Quality scorecards
 
