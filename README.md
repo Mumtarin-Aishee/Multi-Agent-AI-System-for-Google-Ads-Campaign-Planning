@@ -48,14 +48,6 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-## Animated workflow
-
-[`architecture/`](architecture) is a React app, built with Node.js and Vite, that animates the workflow narrated in the demo across 11 steps. Play it through, step manually, or click any part of the diagram to see what happens there. Requires Node.js 18 or later.
-
-```bash
-cd architecture
-npm install
-npm run dev
 ```
 
 ## Multi-Agent Workflow Architecture
