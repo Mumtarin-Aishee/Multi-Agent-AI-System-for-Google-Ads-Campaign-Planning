@@ -10,7 +10,20 @@ A multi-agent system design for turning campaign inputs into a structured, launc
 
 In the Google Ads pre-launch phase, most search campaigns are built in silos, without fully integrating audience, competitor, and performance data before launch.
 
-## Solution
+
+### Agents
+
+| Agent | Responsibility | Output |
+| --- | --- | --- |
+| **Keyword Intelligence** | Expands seed keywords, classifies search intent, and organizes keywords by intent and audience segment | Scored keywords, ad groups, negatives |
+| **Competitor Monitoring** | Tracks competitor messaging, promotions, and trends to find what is saturated and where there is opportunity | Whitespace analysis, urgency alerts, recommended angles |
+| **Ad Copy** | Turns the approved keyword strategy and competitor insights into RSAs aligned with audience, seasonality, landing pages, and brand guidelines | RSA assets with scorecards |
+
+### Shared context
+
+All three agents draw on the same inputs from **Strategy Setup** and **Data Sources**, where users enter campaign goals, audience, and seasonality, and connect data sources, URLs, and APIs. This keeps keyword strategy and ad copy aligned with campaign objectives.
+
+## Deliverables
 
 An agentic system that produces a complete campaign package, ready for export and upload:
 
@@ -108,18 +121,6 @@ An orchestration layer coordinates three agents through shared context. Each age
 [![Animated workflow of the multi-agent system](docs/workflow-animation.gif)](https://architecture-tau-nine.vercel.app)
 
 **[Open the live interactive workflow](https://architecture-tau-nine.vercel.app)** to play it, step through it, or click any part of the diagram. The source is in [`architecture/`](architecture).
-
-### Agents
-
-| Agent | Responsibility | Output |
-| --- | --- | --- |
-| **Keyword Intelligence** | Expands seed keywords, classifies search intent, and organizes keywords by intent and audience segment | Scored keywords, ad groups, negatives |
-| **Competitor Monitoring** | Tracks competitor messaging, promotions, and trends to find what is saturated and where there is opportunity | Whitespace analysis, urgency alerts, recommended angles |
-| **Ad Copy** | Turns the approved keyword strategy and competitor insights into RSAs aligned with audience, seasonality, landing pages, and brand guidelines | RSA assets with scorecards |
-
-### Shared context
-
-All three agents draw on the same inputs from **Strategy Setup** and **Data Sources**, where users enter campaign goals, audience, and seasonality, and connect data sources, URLs, and APIs. This keeps keyword strategy and ad copy aligned with campaign objectives.
 
 ### Scoring
 
