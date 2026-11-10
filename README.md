@@ -23,6 +23,16 @@ In the Google Ads pre-launch phase, most search campaigns are built in silos, wi
 
 All three agents draw on the same inputs from **Strategy Setup** and **Data Sources**, where users enter campaign goals, audience, and seasonality, and connect data sources, URLs, and APIs. This keeps keyword strategy and ad copy aligned with campaign objectives.
 
+### Human in the loop
+
+Reviewers can approve, edit, or override decisions before deployment. The prototype models five approval gates, each recorded in an audit trail:
+
+1. Keyword shortlist
+2. Negative keywords
+3. Ad group structure
+4. Competitor messaging
+5. Final RSA copy
+
 ## Deliverables
 
 An agentic system that produces a complete campaign package, ready for export and upload:
@@ -135,15 +145,6 @@ score = 0.25 × Search Intent Fit
 
 Ad copy is scored on brand voice fit, landing page relevance, audience match, policy safety, keyword coverage, and seasonal fit.
 
-### Human in the loop
-
-Reviewers can approve, edit, or override decisions before deployment. The prototype models five approval gates, each recorded in an audit trail:
-
-1. Keyword shortlist
-2. Negative keywords
-3. Ad group structure
-4. Competitor messaging
-5. Final RSA copy
 
 ## What the prototype does and does not do
 
