@@ -51,21 +51,11 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-The package contents a user selects for export. The screen is a mock: export is not yet properly built.
+### Quality, approval, and export dashboard
 
-![Export Campaign Package dialog listing package contents](docs/output/export-package.jpg)
+How outputs are scored, approved, logged, and packaged for upload, in one view. The export screen is a mock: export is not yet properly built. Click the image to see it at full size.
 
-### Quality scorecards
-
-Scores for keyword opportunity, audience fit, seasonal demand, competitor whitespace, and ad copy readiness.
-
-![Overview page with workflow status and quality scorecards](docs/output/scorecards.jpg)
-
-### Approvals and audit trail
-
-Five approval gates, with every agent and reviewer action recorded.
-
-![Review and Approval Queue with audit trail](docs/output/approvals.jpg)
+[![Dashboard showing quality scorecards, approval gates and audit trail, the export package, and how they fit together](docs/output/review-export-dashboard.png)](docs/output/review-export-dashboard.png)
 
 ## How the Agentic System Works (Demo videos)
 
@@ -77,7 +67,7 @@ How the agents coordinate, and how Strategy Setup and Data Sources build the sha
 
 [![Part 1 preview](docs/demo/part-1-preview.gif)](docs/demo/part-1-overview-and-setup.mp4)
 
-**[Watch the full Part 1 youtube video with narration (1:26)] (https://youtu.be/7dmze3eRXM4?si=WbbygqZ-R339Ne3r)**
+**[Watch the full Part 1 youtube video with narration (1:26)](https://youtu.be/7dmze3eRXM4?si=WbbygqZ-R339Ne3r)**
 
 ### Part 2: Keyword and Competitor agents
 
@@ -85,7 +75,7 @@ Keyword Intelligence, Competitor Monitoring, and the market-shift signal.
 
 [![Part 2 preview](docs/demo/part-2-preview.gif)](docs/demo/part-2-keywords-and-competitors.mp4)
 
-**[Watch the full Part 2 youtube video with narration (2:00)] (https://youtu.be/rCGLRmrLVuw?si=wyASdeiO6fwylRyg)**
+**[Watch the full Part 2 youtube video with narration (2:00)](https://youtu.be/rCGLRmrLVuw?si=wyASdeiO6fwylRyg)**
 
 ### Part 3: Ad copy, approvals, and export
 
@@ -99,7 +89,7 @@ To try the prototype, download [`prototype/index.html`](prototype/index.html) an
 
 ## What the output looks like
 
-The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard). The screens below show the rest, using sample data from the prototype.
+The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard-at-one-glance). Scorecards, approvals, and the export package are shown in the [quality, approval, and export dashboard](#quality-approval-and-export-dashboard). Both use sample data from the prototype.
 
 ## Animated workflow
 
