@@ -19,7 +19,7 @@ In the Google Ads pre-launch phase, most search campaigns are built in silos, wi
 | **Competitor Monitoring** | Tracks competitor messaging, promotions, and trends to find what is saturated and where there is opportunity | Whitespace analysis, urgency alerts, recommended angles |
 | **Ad Copy** | Turns the approved keyword strategy and competitor insights into RSAs aligned with audience, seasonality, landing pages, and brand guidelines | RSA assets with scorecards |
 
-### Agent output dashboard
+### Agent output dashboard at one glance
 
 What the three agents produce, in one view. Click the image to see it at full size.
 
