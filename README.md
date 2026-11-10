@@ -11,7 +11,7 @@ A multi-agent system design for turning campaign inputs into a structured, launc
 In the Google Ads pre-launch phase, most search campaigns are built in silos, without fully integrating audience, competitor, and performance data before launch.
 
 
-### Agents
+### 3 Integrated Agents
 
 | Agent | Responsibility | Output |
 | --- | --- | --- |
