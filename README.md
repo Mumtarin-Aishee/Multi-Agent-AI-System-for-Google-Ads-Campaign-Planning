@@ -48,8 +48,6 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-```
-
 ## Multi-Agent Workflow Architecture
 
 An orchestration layer coordinates three agents through shared context. Each agent has a scoring layer, and its output passes through human review before final export.
