@@ -51,12 +51,6 @@ An agentic system that produces a complete campaign package, ready for export an
 - Competitor insights
 - Quality scorecards and rationale
 
-### Quality, approval, and export dashboard
-
-How outputs are scored, approved, logged, and packaged for upload, in one view. The export screen is a mock: export is not yet properly built. Click the image to see it at full size.
-
-[![Dashboard showing quality scorecards, approval gates and audit trail, the export package, and how they fit together](docs/output/review-export-dashboard.png)](docs/output/review-export-dashboard.png)
-
 ## How the Agentic System Works (Demo videos)
 
 The previews below play at 4× speed without sound. Open a full video to hear the walkthrough.
@@ -89,6 +83,12 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 ## What the output looks like
 
 The final output is a campaign package. Keywords, competitor insights, and ad copy are shown in the [agent output dashboard](#agent-output-dashboard-at-one-glance). Scorecards, approvals, and the export package are shown in the [quality, approval, and export dashboard](#quality-approval-and-export-dashboard). Both use sample data from the prototype.
+### Quality, approval, and export dashboard
+
+How outputs are scored, approved, logged, and packaged for upload, in one view. The export screen is a mock: export is not yet properly built. Click the image to see it at full size.
+
+[![Dashboard showing quality scorecards, approval gates and audit trail, the export package, and how they fit together](docs/output/review-export-dashboard.png)](docs/output/review-export-dashboard.png)
+
 
 ## Animated workflow
 
