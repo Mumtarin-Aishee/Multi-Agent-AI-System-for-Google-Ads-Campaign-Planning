@@ -25,9 +25,6 @@ What the three agents produce, in one view. Click the image to see it at full si
 
 [![Agent output dashboard showing keywords, competitor insights, ad groups and RSA copy, and highlights](docs/output/agent-dashboard.png)](docs/output/agent-dashboard.png)
 
-### Shared context
-
-All three agents draw on the same inputs from **Strategy Setup** and **Data Sources**, where users enter campaign goals, audience, and seasonality, and connect data sources, URLs, and APIs. This keeps keyword strategy and ad copy aligned with campaign objectives.
 
 ### Human in the loop
 
