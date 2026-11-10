@@ -85,7 +85,6 @@ Ad Copy Agent, scoring, human-in-the-loop approvals, the audit trail, and the ca
 
 **[Watch the full Part 3 youtube video with narration (1:36)](https://youtu.be/N9eusQl2ybM?si=2TkEh71maULpGr1r)**
 
-To try the prototype, download [`prototype/index.html`](prototype/index.html) and open it in a browser. It has no dependencies or build step.
 
 ## What the output looks like
 
