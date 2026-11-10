@@ -1,6 +1,6 @@
 # Multi-Agent Google Ads Pre-Launch System Design & Prototype Video
 
-A multi-agent system design for turning campaign inputs into a structured, launch-ready Google Search campaign package, with a human review checkpoint at each key decision.
+A multi-agent system design for turning campaign inputs into a structured, launch-ready Google Search campaign package, with a human review checkpoint at each key decision. Key features are  integrated ecosystem that include keyword, ad copy and competitors insights, quality scorecard for each output, human review checkpoints and campaign package that can be exported. 
 
 > [Disclaimer]
 > **Prototype only. Not production ready.**
